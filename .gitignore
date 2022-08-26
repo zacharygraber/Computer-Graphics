@@ -1,3 +1,17 @@
+# .gitignore file for B481/B581 in Fall 2021
+#
+# this file contains a description
+# of files and directories that need to be ignored
+# when committing to this repository
+
+# Windows thumbnail db
+Thumbs.db
+
+# macOS files
+.DS_Store
+
+
+
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
@@ -57,4 +71,3 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
-
