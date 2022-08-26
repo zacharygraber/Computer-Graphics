@@ -1,3 +1,5 @@
+B481 / Fall 2022 Lab 01 Zachary Graber (zegraber)
+--------------------------------------------------------------------------------------
 How I organize my IU GitHub repository for B481:
 
 Exactly how it was explained! I created folders "labs," "hw," and "problem-sets"
