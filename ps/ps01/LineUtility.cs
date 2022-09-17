@@ -63,10 +63,11 @@ namespace PS01 {
 
 
 
-        // NOTE: decide whether you prefer to use
-        //       either the ClosestPointOnPolygon() method
-        //       or the ClosestPointOnPolygon() method,
-        //       but not both...
+        // NOTE: look at the two method implementations below, and 
+        //       decide whether you prefer to use:
+        //       either the ClosestPointOnPolygon() method using Vector2[] polygonPoints
+        //       or the ClosestPointOnPolygon() method using Transform[] polygonVertices,
+        //       but not both!
         
         
         // ClosestPointOnPolygon() --- returns the closest point (on a polygon)
