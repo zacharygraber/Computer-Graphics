@@ -1,0 +1,12 @@
+B481 / Fall 2022
+Problem Set 01
+Zachary Graber
+zegraber
+
+I used my personal desktop computer running Unity 2020.3.16f1 LTS. I didn't use any particular assets aside from stock things like the Default-Line material, etc. The C# files in my project are the given 3 (DragObject.cs, LineUtility.cs, and SingleSegmentPositionLines.cs) plus one that I created for the second part: PolygonLogic.cs. These are all contained in the Assets/Scripts folder. 
+
+I completed the entire coding assignment (I hope).
+
+With the way I implemented the polygon, you should be able to add any amount of vertices to the `points` array, and it should handle drawing edges between them correctly (it draws edges from point[i] to point[i+1], wrapped from the last to the first of course). I am dynamically adding the LineRenderer components to each vertex (as noted in a comment, each vertex GameObject is responsible for drawing a line between it and the next vertex in the array) at startup.
+
+I *did* use an outside resource for one bit: figuring out how to get the material for the LineRenderer programmatically (i.e. at runtime): https://stackoverflow.com/questions/72240485/how-to-add-the-default-line-material-back-to-the-linerenderer-material.
