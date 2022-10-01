@@ -77,7 +77,7 @@ namespace PS02 {
                 //    new Vector4( TODO )
                 // );
                 
-                // finally, compute the splinePointPosition as from the Hermite Form
+                // finally, compute the splinePointPosition as from the spline Matrix Form
                 //      (defined as in Lecture 11 notes,
                 //       albeit in Lecture 11 the parameter is named 't',
                 //       and here we're naming the parameter 'u',
