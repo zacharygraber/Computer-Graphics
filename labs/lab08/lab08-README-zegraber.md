@@ -1,7 +1,4 @@
-## B481 / Fall 2022
-## Lab 08
-## Zachary E Graber
-## zegraber@iu.edu
+## B481 / Fall 2022 <br /> Lab 08 <br /> Zachary E Graber <br /> zegraber@iu.edu
 
 ----
 
