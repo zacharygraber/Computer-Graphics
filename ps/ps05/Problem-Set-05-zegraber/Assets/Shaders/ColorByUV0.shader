@@ -1,4 +1,4 @@
-Shader "zegraber/ColorByWorldNormal"
+Shader "zegraber/ColorByUV0"
 {
     SubShader
     {
@@ -13,13 +13,13 @@ Shader "zegraber/ColorByWorldNormal"
             struct appdata
             {
                 float4 vertex : POSITION;
-                float4 normal : NORMAL;
+                float2 uv0 : TEXCOORD0;
             };
 
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float4 normal : NORMAL;
+                float2 uv0 : TEXCOORD0;
             };
 
             float4x4 _TranslationMatrix;
@@ -30,7 +30,6 @@ Shader "zegraber/ColorByWorldNormal"
             float4x4 _ProjectionMatrix;
 
             float4x4 trs();
-            float4 objectNormalToWorld(float4 objNormal);
 
             v2f vert(appdata v)
             {
@@ -38,27 +37,18 @@ Shader "zegraber/ColorByWorldNormal"
                 o.vertex = mul(_ProjectionMatrix, mul(_ViewingMatrix, mul(trs(), v.vertex)));
                 o.vertex.y = -1.0f * o.vertex.y;
                 o.vertex.z = 1; // If I don't force the z-depth, for some reason everything renders backward/inside out.
-                o.normal = objectNormalToWorld(-1 * v.normal);
+                o.uv0 = v.uv0;
                 return o;
             }
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed4 o = fixed4(0, 0, 0, 1);
-                o.rgb = normalize(i.normal)*0.5 + 0.5;
-                return o;
+                return fixed4(i.uv0.x, 0.0, i.uv0.y, 1.0);
             }
 
             float4x4 trs()
             {
                 return mul(_TranslationMatrix, mul(_RotationMatrix, _ScalingMatrix));
-            }
-
-            // If we translate normal vectors, bad things happen.
-            // Technically these normals would be incorrect for non-uniform scaling
-            float4 objectNormalToWorld(float4 objNormal)
-            {
-                return mul(_RotationMatrix, mul(_ScalingMatrix, objNormal));
             }
 
             ENDCG

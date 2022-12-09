@@ -6,36 +6,27 @@ namespace PS05
 {
     public class MeshLogic : MonoBehaviour
     {
-        [SerializeField] public Material material;
-        [SerializeField] public CustomCamera cam;
-        [SerializeField] public CustomTransform _customTransform;
+        [Header("Scene Elements")]
+        [SerializeField] public Shader shader;
+        [SerializeField] private CustomCamera cam;
+        [SerializeField] private CustomTransform _customTransform;
         [SerializeField] private CustomLight _light;
 
-        [SerializeField, Range(0.0f, 10.0f)] private float specularity;
-        [SerializeField, Range(0.0f, 1.0f)] private float diffuseIntensity;
+        [Header("Material Properties")]
+        [SerializeField, Range(1.0f, 100.0f)] private float specularity;
+        [SerializeField, Range(0.0f, 10.0f)] private float diffuseIntensity;
+        [SerializeField] private Color surfaceColor;
 
-        private MeshFilter meshFilter;
-        private MeshRenderer meshRenderer;
-        private Mesh mesh;
-
-        // Start is called before the first frame update
-        void Start()
-        {
-            // Obtain Mesh Renderer and Mesh Filter components from Unity scene and generate a cube mesh:
-            meshRenderer = GetComponent<MeshRenderer>();
-            meshFilter = GetComponent<MeshFilter>();
-            mesh = GetCubeMesh();
-            meshFilter.mesh = mesh;
-
-            // Assign our custom material/shader to the mesh
-            meshRenderer.material = material;
-        }
+        protected MeshFilter meshFilter;
+        protected MeshRenderer meshRenderer;
+        protected Mesh mesh;
+        public Material material;
 
         // Update is called once per frame
         void Update()
         {
             // Compute and pass the modeling matrices to the shader
-            SetModelingMatrices(material);
+            SetModelingMatrices();
             
             // Compute viewing transformation matrix
             material.SetMatrix("_ViewingMatrix", cam.viewMatrix);
@@ -48,15 +39,26 @@ namespace PS05
             material.SetVector("_LightPos", _light.getPosition());
             material.SetVector("_LightDiffuseColor", _light.diffuseColor);
             material.SetVector("_LightSpecularColor", _light.specularColor);
+            material.SetVector("_MaterialColor", surfaceColor);
             material.SetFloat("_LightAmbient", _light.ambientIntensity);
             material.SetFloat("_LightIntensity", _light.intensityMultiplier);
             material.SetFloat("_Specularity", specularity);
             material.SetFloat("_DiffuseIntensity", diffuseIntensity);
         }
 
-        
+        public virtual void SetMesh(Mesh newMesh) {
+            this.mesh = newMesh;
+            this.mesh.RecalculateNormals();
 
-        private void SetModelingMatrices(Material material) {
+            this.meshRenderer = GetComponent<MeshRenderer>();
+            this.meshFilter = GetComponent<MeshFilter>();
+            this.meshFilter.mesh = this.mesh;
+
+            this.material = new Material(this.shader);
+            this.meshRenderer.material = this.material;
+        }
+
+        private void SetModelingMatrices() {
             material.SetMatrix("_TranslationMatrix", new Matrix4x4(
                 new Vector4(1,0,0,0),
                 new Vector4(0,1,0,0),
@@ -72,8 +74,8 @@ namespace PS05
             material.SetMatrix("_RotationMatrix", _customTransform.GetRotationMatrix());
         }
 
-        // Helper function to clear up Start() function above
-        private Mesh GetCubeMesh() {
+        // Helper function to get a cube. Used for point lights, but mostly for debug/fun
+        public static Mesh GetCubeMesh() {
             Mesh mesh = new Mesh();
 
             Vector3[] vertices = { // Repeat vertices are necessary for proper normals
@@ -103,14 +105,14 @@ namespace PS05
                 new Vector3(.5f, .5f, .5f) // back face
             };
 
-            Vector3[] normals = {
-                Vector3.up, Vector3.up, Vector3.up, Vector3.up, // top
-                Vector3.down, Vector3.down, Vector3.down, Vector3.down, // bottom
-                Vector3.left, Vector3.left, Vector3.left, Vector3.left, // left
-                Vector3.right, Vector3.right, Vector3.right, Vector3.right, // right
-                Vector3.back, Vector3.back, Vector3.back, Vector3.back, // front
-                Vector3.forward, Vector3.forward, Vector3.forward, Vector3.forward, // back
-            };
+            // Vector3[] normals = {
+            //     Vector3.up, Vector3.up, Vector3.up, Vector3.up, // top
+            //     Vector3.down, Vector3.down, Vector3.down, Vector3.down, // bottom
+            //     Vector3.left, Vector3.left, Vector3.left, Vector3.left, // left
+            //     Vector3.right, Vector3.right, Vector3.right, Vector3.right, // right
+            //     Vector3.back, Vector3.back, Vector3.back, Vector3.back, // front
+            //     Vector3.forward, Vector3.forward, Vector3.forward, Vector3.forward, // back
+            // };
             // Vector3[] normals = {
             //     Vector3.down, Vector3.down, Vector3.down, Vector3.down, // bottom
             //     Vector3.up, Vector3.up, Vector3.up, Vector3.up, // top
@@ -150,7 +152,7 @@ namespace PS05
             // };
             mesh.vertices = vertices;
             mesh.triangles = triangles;
-            mesh.normals = normals;
+            // mesh.normals = normals;
 
             return mesh;
         }

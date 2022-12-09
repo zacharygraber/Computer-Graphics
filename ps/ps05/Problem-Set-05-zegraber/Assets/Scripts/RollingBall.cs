@@ -12,7 +12,7 @@ namespace PS05 {
             Scale
         }
 
-        [SerializeField, Range(0.5f, 100.0f)] public float sensitivity = 30.0f;
+        [SerializeField, Range(0.5f, 500.0f)] public float sensitivity = 30.0f;
         [SerializeField] public static InteractionMode currentMode = InteractionMode.Rotate;
         [SerializeField] private CustomTransform customTransform;
 
