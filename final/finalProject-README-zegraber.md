@@ -42,3 +42,4 @@ The prompt for this README says to refer to my written proposal for HW 5, then g
 
 I don't have much more to say other than that this project took me an incredible amount of time/effort/debugging, and I'm proud of how it turned out, even if there are some things I wish I had more time to improve. 
 
+It's been an incredible semester, and I've had a lot of fun with this class.
